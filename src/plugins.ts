@@ -98,7 +98,6 @@ export function getPluginConfigFields(id: string) {
 
 async function initPlugin<T>(pl: any, more?: T) {
     return Object.assign(pl, await pl.init?.({
-        const: Const, // legacy, deprecated in 0.48
         Const,
         require,
         getConnections,
