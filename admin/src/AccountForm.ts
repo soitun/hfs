@@ -47,8 +47,6 @@ export default function AccountForm({ account, done, groups, addToBar, reload }:
                 onClick: () => apiCall('invalidate_sessions', { username: account.username }).then(reload)
             }),
             addToBar,
-            h(Box, { flex:1 }),
-            account2icon(values, { fontSize: 'large', sx: { p: 1 }})
         ],
         fields: [
             { k: 'username', label: group ? 'Group name' : undefined, autoComplete: 'off', required: true, xl: group ? 12 : 4,
