@@ -101,11 +101,14 @@ export default function InternetPage() {
             isCertError(error) && h(Alert, { severity: 'warning' }, error),
             !listening && h(LinkBtn, { onClick: notEnabled }, "Not enabled")
                 || error && "For HTTPS to work, you need a valid certificate",
-            cert.element || with_(cert.data, c => h(Box, {}, h(CardMembership, { fontSize: 'small', sx: { mr: 1, verticalAlign: 'middle' } }), "Current certificate", h('ul', {},
-                h('li', {}, "Domain: ", c.subject?.CN || '-'),
-                h('li', {}, "Issuer: ", c.issuer?.O || h('i', {}, 'self-signed')),
-                h('li', {}, "Validity: ", ['validFrom', 'validTo'].map(k => formatTimestamp(c[k])).join(' – ')),
-            ))),
+            cert.element || with_(cert.data, c => h(Box, {},
+                h(CardMembership, { fontSize: 'small', sx: { mr: 1, verticalAlign: 'middle' } }), "Current certificate",
+                h('ul', {},
+                    h('li', {}, "Domain: ", c.subject?.CN || '-'),
+                    h('li', {}, "Issuer: ", c.issuer?.O || h('i', {}, 'self-signed')),
+                    h('li', {}, "Validity: ", ['validFrom', 'validTo'].map(k => formatTimestamp(c[k])).join(' – ')),
+                )
+            )),
             h(Divider),
             h(Form, {
                 gap: 1,
@@ -164,14 +167,14 @@ export default function InternetPage() {
         const url = config.data?.base_url
         const hostname = url && new URL(url).hostname
         const domain = !isIP(hostname) && hostname
-        return status.element || h(TitleCard, { icon: Public, title: "Address / Domain" },
+        return config.element || h(TitleCard, { icon: Public, title: "Address / Domain" },
             h(Flex, { flexWrap: 'wrap' },
                 url || "Automatic, not configured",
                 h(Flex, {}, // keep buttons together when wrapping
                     h(Btn, {
                         size: 'small',
                         variant: 'outlined',
-                        onClick: () =>changeBaseUrl().then(status.reload)
+                        onClick: () =>changeBaseUrl().then(config.reload)
                     }, "Change"),
                     domain && h(Btn, {
                         size: 'small',
